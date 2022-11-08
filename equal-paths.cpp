@@ -8,30 +8,35 @@ using namespace std;
 
 
 //helper function
-bool equalPaths_(Node* root, int height, int height_){
-    //base case for this recursion
-    if(root == NULL) return true;
 
-    //when a leaf node
-    if(root->left == NULL && root->right == NULL){
-        //when the first leaf node
-        if(height_ == 0){
-            height_ = height;
-            return true;
-        }
-        //when not the first node, compare it with the first node
-        return height == height_;
-    }
-    //recursion
-    return equalPaths_(root->left, height+1, height_) &&
-           equalPaths_(root->right, height+1, height_);
+int maxheight(Node* root) {
+	// Base case: an empty tree is always balanced and has a height of 0
+	if (root == nullptr) return 0;
+	if (root->left == NULL && root->right == NULL) return 0;
+	int l,r;
+	l = maxheight(root->left);
+	r = maxheight(root->right);
+	return std::max(l,r)+1;
+
+}
+
+int minheight(Node* root) {
+	if (root == NULL) return 0;
+  if (root->left == NULL && root->right == NULL) return 0;
+   
+  int l=0,r=0;
+  if (root->left){
+    l = minheight(root->left);
+	}
+  if (root->right){
+    r = minheight(root->right);
+	}
+  return min(l,r)+1;
 }
 
 bool equalPaths(Node * root)
 {
-    int height = 0;
-    int height_ = 0;
-    return equalPaths_(root, height, height_);
-
+    if(minheight(root) == maxheight(root)) return true;
+    return false;
 }
 
